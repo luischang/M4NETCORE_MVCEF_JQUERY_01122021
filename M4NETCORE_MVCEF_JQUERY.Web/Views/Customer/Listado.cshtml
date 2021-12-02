@@ -32,3 +32,17 @@
     </tbody>
 
 </table>
+
+<script>
+    LoadTable();
+    function LoadTable() {
+        let table = $("#tbClientes").DataTable({
+            lengthChange: false,
+            buttons:['copy','excel','pdf','colvis','print']
+
+        });
+
+        table.buttons().container()
+            .insertBefore("#tbClientes_filter");
+    }
+</script>

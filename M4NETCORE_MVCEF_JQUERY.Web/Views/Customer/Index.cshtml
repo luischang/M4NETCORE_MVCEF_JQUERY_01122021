@@ -9,6 +9,53 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalRegistroCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestión de Clientes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombres</label>
+                            <input type="text" class="form-control" id="txtNombre" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Apellidos</label>
+                            <input type="text" class="form-control" id="txtApellido" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>País</label>
+                            <input type="text" class="form-control" id="txtPais" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Ciudad</label>
+                            <input type="text" class="form-control" id="txtCiudad" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Telefono</label>
+                            <input type="text" class="form-control" id="txtTelefono" />
+                            <input type="hidden" id="hidCliente" value="-1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnGrabarCliente" class="btn btn-primary">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div id="divListadoClientes">
 
@@ -17,6 +64,117 @@
 
 
 <script>
+    $("#divListadoClientes").on("click", ".btnEliminarCliente", function () {
+        let vIdCliente = $(this).attr("data-id");
+        /* if (confirm("¿Estás seguro de eliminar al cliente?")) {*/
+        swal({
+            title: "Are you sure?",
+            text: "Your will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+            function () {
+                 $.ajax({
+                type: "POST",
+                url: '@Url.Action("Eliminar","Customer")',
+                cache: false,
+                data: {
+                    idCliente: vIdCliente
+                },
+                success: function (exito) {
+                    if (exito) {
+                        swal("Se eliminó correctamente....");
+                        CargarListadoCliente();
+                    } else {
+                        swal("Ocurrió un error al eliminar el cliente...");
+                    }
+
+                }
+                 });
+                swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            });
+        /*}*/
+    });
+
+
+    $("#divListadoClientes").on("click", ".btnEditarCliente", function () {
+        let vIdCliente = $(this).attr("data-id");
+        $("#hidCliente").val(vIdCliente);
+        let modalRegistro = $("#modalRegistroCliente");
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Obtener","Customer")',
+            cache: false,
+            data: {
+                idCliente: vIdCliente
+            },
+            success: function (objCliente) {
+                $("#txtNombre").val(objCliente.firstName);
+                $("#txtApellido").val(objCliente.lastName);
+                $("#txtPais").val(objCliente.country);
+                $("#txtCiudad").val(objCliente.city);
+                $("#txtTelefono").val(objCliente.phone);
+                modalRegistro.modal();
+            }
+        });
+
+
+    });
+
+
+
+    $("#btnGrabarCliente").click(function () {
+        let vNombres =  $("#txtNombre").val();
+        let vApellidos=  $("#txtApellido").val();
+        let vPais = $("#txtPais").val();
+        let vCiudad = $("#txtCiudad").val();
+        let vTelefono = $("#txtTelefono").val();
+        let vIdCliente = $("#hidCliente").val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Grabar","Customer")',
+            cache: false,
+            data: {
+                idCliente: vIdCliente,
+                nombres: vNombres,
+                apellidos: vApellidos,
+                ciudad: vCiudad,
+                pais: vPais,
+                telefono: vTelefono
+            },
+            success: function (exito) {
+                if (exito) {
+                    //alert("Se registró correctamente...");
+                    swal("Se registró correctamente...");
+                    CargarListadoCliente();
+                    $("#modalRegistroCliente").modal("toggle");
+                }
+
+            }
+        });
+    });
+
+    function LimpiarControles() {
+        $("#txtNombre").val("");
+        $("#txtApellido").val("");
+        $("#txtPais").val("");
+        $("#txtCiudad").val("");
+        $("#txtTelefono").val("");
+        $("#hidCliente").val("-1");
+    }
+
+
+    $("#btnAgregarCliente").click(function () {
+        LimpiarControles();
+        $("#modalRegistroCliente").modal();
+    });
+
+
     CargarListadoCliente();
     function CargarListadoCliente() {
         $.ajax({
