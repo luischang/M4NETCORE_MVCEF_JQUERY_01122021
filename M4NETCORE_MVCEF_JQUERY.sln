@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M4NETCORE_MVCEF_JQUERY.Web", "M4NETCORE_MVCEF_JQUERY.Web\M4NETCORE_MVCEF_JQUERY.Web.csproj", "{9EBDC060-AA2F-4355-A33A-E4F7A55E418B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9EBDC060-AA2F-4355-A33A-E4F7A55E418B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EBDC060-AA2F-4355-A33A-E4F7A55E418B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EBDC060-AA2F-4355-A33A-E4F7A55E418B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EBDC060-AA2F-4355-A33A-E4F7A55E418B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEFB8F1A-15CC-40F2-8472-44C87EB55A25}
+	EndGlobalSection
+EndGlobal
